@@ -18,13 +18,19 @@ angular.module('starter.controllers', [])
 
 	console.log(typeof cordova == 'undefined') 
 
+	$scope.polling = false;
+
 	$scope.checkBarcode = function(barcode) {
 		PrivateAddressService.authorise(barcode).then(function(data) {
 
 				if (data == true) {
 					$location.path('/home.result')
+					clearInterval($scope.polling)
 				} else {
 					console.log("Data failed. Keep polling")
+					if (!$scope.polling) {
+						$scope.polling = setInterval(function() { $scope.checkBarcode(barcode)}, 2000)
+					}
 				}
 
       }, function(error) {
