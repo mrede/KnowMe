@@ -21,8 +21,10 @@ angular.module('starter.services', [])
           if (data.authorised == true) {
               console.log("We are validated")
               //$location.path('/home.result');
-            }
-            deferred.resolve( data.authorised);
+
+          }
+          deferred.resolve( data.authorised);
+            
         })
         .error(function(data, status, headers, config) {
           console.log("FAIL",data, status, headers, config)

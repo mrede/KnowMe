@@ -21,7 +21,11 @@ angular.module('starter.controllers', [])
 	$scope.checkBarcode = function(barcode) {
 		PrivateAddressService.authorise(barcode).then(function(data) {
 
-				$location.path('/home.result')
+				if (data == true) {
+					$location.path('/home.result')
+				} else {
+					console.log("Data failed. Keep polling")
+				}
 
       }, function(error) {
           console.log("ERRPR", data);
