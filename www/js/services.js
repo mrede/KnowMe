@@ -3,24 +3,32 @@ angular.module('starter.services', [])
 /**
  * A simple example service that returns some data.
  */
-.factory('Friends', function() {
-  // Might use a resource here that returns a JSON array
+.service('PrivateAddressService', function($http, $q) {
+  
+  return({
+                    authorise: authorise,
+                    
+  });
 
-  // Some fake testing data
-  var friends = [
-    { id: 0, name: 'Scruff McGruff' },
-    { id: 1, name: 'G.I. Joe' },
-    { id: 2, name: 'Miss Frizzle' },
-    { id: 3, name: 'Ash Ketchum' }
-  ];
+  function authorise(barcode) {
+    console.log("AUTHORISING barcode:", barcode)
+    var deferred = $q.defer();
 
-  return {
-    all: function() {
-      return friends;
-    },
-    get: function(friendId) {
-      // Simple index lookup
-      return friends[friendId];
-    }
-  }
+    var request = $http.get('http://192.168.51.212/authorise_request.json.php?address_id='+barcode)
+        .success(function(data) {
+          console.log("Authorised:", data.authorised)
+            
+          if (data.authorised == true) {
+              console.log("We are validated")
+              //$location.path('/home.result');
+            }
+            deferred.resolve( data.authorised);
+        })
+        .error(function(data, status, headers, config) {
+          console.log("FAIL",data, status, headers, config)
+          deferred.reject("not authorised")
+        });
+        return deferred.promise;
+    };
+    
 });

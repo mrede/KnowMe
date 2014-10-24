@@ -14,10 +14,19 @@ angular.module('starter.controllers', [])
   $scope.friend = Friends.get($stateParams.friendId);
 })
 
-.controller('HomeCtrl', function($scope, $location, $http, $cordovaBarcodeScanner) {
+.controller('HomeCtrl', function($scope, $location, $http, $cordovaBarcodeScanner, PrivateAddressService) {
 
 	console.log(typeof cordova == 'undefined') 
 
+	$scope.checkBarcode = function(barcode) {
+		PrivateAddressService.authorise(barcode).then(function(data) {
+
+				$location.path('/home.result')
+
+      }, function(error) {
+          console.log("ERRPR", data);
+      });
+	}
 
 	$scope.scan = function() {
 		console.log("TEST")
@@ -26,12 +35,12 @@ angular.module('starter.controllers', [])
 		    .scan()
 		    .then(function(imageData) {
 		    	console.log("YUP")
-		    	alert("We got a barcode\n" +
-		                "Result: " + imageData.text + "\n" +
-		                "Format: " + imageData.format + "\n" +
-		                "Cancelled: " + imageData.cancelled);
+		    	// alert("We got a barcode\n" +
+		     //            "Result: " + imageData.text + "\n" +
+		     //            "Format: " + imageData.format + "\n" +
+		     //            "Cancelled: " + imageData.cancelled);
 		      // Success! Barcode data is here
-
+		      $scope.checkBarcode(imageData.text);
 		     	//Call JSON request
 		     	
 		    }, function(error) {
@@ -43,18 +52,7 @@ angular.module('starter.controllers', [])
 			console.log("changing location");
 			$location.path('/home.scanning');
 			
-			$http.get('http://192.168.51.212/authorise_request.json.php?address_id=test').success(function(data) {
-						console.log("DATA", data.authorised)
-    				
-    				if (data.authorised == true) {
-    					console.log("We are validated")
-    					$location.path('/home.result');
-    				}
-  				}).
-  				error(function(data, status, headers, config) {
-  					console.log("FAIL",data, status, headers, config)
-    
-  				});
+			$scope.checkBarcode('fakebarcode');
 			
 			
 		}
