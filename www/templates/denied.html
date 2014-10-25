@@ -1,6 +1,24 @@
-<ion-view title="Authorisation Denied">
+<ion-view title="Customer Address Rejected">
   <ion-content class="padding">
     
-    Your request for address verification has been denied.
+    <div class="list card">
+
+		  <div class="item item-avatar">
+		    <img src="img/dhl.png">
+		    <h2>Customer:</h2>
+		    <p>Authorisation rejected</p>
+		  </div>
+
+		  <div class="item">
+		  	<p class='item-icon-left ion-information-circled assertive'> The customer has refused your request for access to their address<p>
+		  </div>
+
+		  <button class="button button-block button-assertive button-large" ng-click="scan()">
+		  <i class="icon ion-search "></i> Re-Scan Address
+		</button>
+
+		 
+
+		</div>
   </ion-content>
 </ion-view>

@@ -10,10 +10,9 @@
 		  </div>
 
 		  <div class="item ">
-		    <p>{{customer.name}}</p>
-		    <p>{{customer.name}}</p>
-		    <p>{{customer.name}}</p>
-		    <p>{{customer.name}}</p>
+		  	<ul>
+		  	 <li ng-repeat="address in customer.address">{{address}}</li>
+				</ul>
 		  </div>
 
 		  <a class="item item-icon-left assertive" href="#">
