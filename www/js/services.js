@@ -20,7 +20,7 @@ angular.module('starter.services', [])
     console.log("AUTHORISING barcode:", barcode)
     var deferred = $q.defer();
 
-    var request = $http.get('http://192.168.51.212/authorise_request.json.php?address_id='+barcode)
+    var request = $http.get('http://192.168.51.204:8080/AddressRequest?CustomerId='+barcode)
         .success(function(data) {
           console.log("Authorised?:", data)
             

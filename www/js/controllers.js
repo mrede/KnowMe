@@ -91,6 +91,9 @@ angular.module('starter.controllers', [])
 		address: address,
 	}
 })
-.controller('DeniedCtrl', function($scope) {
+.controller('DeniedCtrl', function($scope, $location) {
 	console.log("Denied Screen")
+	$scope.retry = function() {
+		$location.path('/')
+	}
 });
