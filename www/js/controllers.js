@@ -23,12 +23,12 @@ angular.module('starter.controllers', [])
 	$scope.checkBarcode = function(barcode) {
 		PrivateAddressService.authorise(barcode).then(function(data) {
 
-				if (data.authorised == true) {
+				if (data.status == "authorised") {
 					$location.path('/home.result')
 					clearInterval($scope.polling)
 				} else {
 					// We are not authorised. Is authorisation pending?
-					if (data.pending == true) {
+					if (data.status == "pending") {
 						console.log("Data failed. Keep polling")
 						if (!$scope.polling) {
 							$scope.polling = setInterval(function() { $scope.checkBarcode(barcode)}, 2000)
@@ -41,7 +41,7 @@ angular.module('starter.controllers', [])
 				}
 
       }, function(error) {
-          console.log("ERRPR", data);
+          console.log("ERRPR", error);
       });
 	}
 
@@ -82,11 +82,13 @@ angular.module('starter.controllers', [])
 .controller('ScanningCtrl', function($scope) {
 	console.log("SCANNER")
 })
-.controller('ResultCtrl', function($scope) {
-	console.log("Result Screen")
+.controller('ResultCtrl', function($scope, PrivateAddressService) {
+	console.log("Result Screen", PrivateAddressService.data())
+	var data = PrivateAddressService.data();
+	var address = data.address.split(",")
 	$scope.customer = {
 		name: "Mr Ben Ede",
-		address1: "One Canda Square",
+		address: address,
 	}
 })
 .controller('DeniedCtrl', function($scope) {

@@ -22,12 +22,8 @@ angular.module('starter.services', [])
 
     var request = $http.get('http://192.168.51.212/authorise_request.json.php?address_id='+barcode)
         .success(function(data) {
-          console.log("Authorised:", data.authorised)
+          console.log("Authorised?:", data)
             
-          if (data.authorised == true) {
-              console.log("We are validated")
-
-          }
           the_data = data;
           deferred.resolve( data);
             
