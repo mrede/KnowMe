@@ -7,8 +7,14 @@ angular.module('starter.services', [])
   
   return({
                     authorise: authorise,
+                    data: data
                     
   });
+
+  var the_data;
+  function data() {
+    return the_data;
+  }
 
   function authorise(barcode) {
     console.log("AUTHORISING barcode:", barcode)
@@ -20,10 +26,10 @@ angular.module('starter.services', [])
             
           if (data.authorised == true) {
               console.log("We are validated")
-              //$location.path('/home.result');
 
           }
-          deferred.resolve( data.authorised);
+          the_data = data;
+          deferred.resolve( data);
             
         })
         .error(function(data, status, headers, config) {

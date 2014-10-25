@@ -23,14 +23,21 @@ angular.module('starter.controllers', [])
 	$scope.checkBarcode = function(barcode) {
 		PrivateAddressService.authorise(barcode).then(function(data) {
 
-				if (data == true) {
+				if (data.authorised == true) {
 					$location.path('/home.result')
 					clearInterval($scope.polling)
 				} else {
-					console.log("Data failed. Keep polling")
-					if (!$scope.polling) {
-						$scope.polling = setInterval(function() { $scope.checkBarcode(barcode)}, 2000)
+					// We are not authorised. Is authorisation pending?
+					if (data.pending == true) {
+						console.log("Data failed. Keep polling")
+						if (!$scope.polling) {
+							$scope.polling = setInterval(function() { $scope.checkBarcode(barcode)}, 2000)
+						}
+					} else {
+						//Authorisation has been denied by user.
+						$location.path('/home.denied')
 					}
+					
 				}
 
       }, function(error) {
@@ -44,6 +51,7 @@ angular.module('starter.controllers', [])
 			$cordovaBarcodeScanner
 		    .scan()
 		    .then(function(imageData) {
+		    	$location.path('/home.scanning');
 		    	console.log("Scanned:", imageData)
 		      if (!imageData.cancelled) {
 		      	//Image scan OK
@@ -76,4 +84,11 @@ angular.module('starter.controllers', [])
 })
 .controller('ResultCtrl', function($scope) {
 	console.log("Result Screen")
+	$scope.customer = {
+		name: "Mr Ben Ede",
+		address1: "One Canda Square",
+	}
+})
+.controller('DeniedCtrl', function($scope) {
+	console.log("Denied Screen")
 });
