@@ -45,6 +45,11 @@ angular.module('starter', ['ngCordova', 'ionic', 'starter.controllers', 'starter
       url: '/home.result',
       templateUrl: 'templates/result.html',
       controller: 'ResultCtrl'
+    })
+    .state('denied', {
+      url: '/home.denied',
+      templateUrl: 'templates/denied.html',
+      controller: 'DeniedCtrl'
     });
 
   // if none of the above states are matched, use this as the fallback
