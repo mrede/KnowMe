@@ -44,14 +44,14 @@ angular.module('starter.controllers', [])
 			$cordovaBarcodeScanner
 		    .scan()
 		    .then(function(imageData) {
-		    	console.log("YUP")
-		    	// alert("We got a barcode\n" +
-		     //            "Result: " + imageData.text + "\n" +
-		     //            "Format: " + imageData.format + "\n" +
-		     //            "Cancelled: " + imageData.cancelled);
-		      // Success! Barcode data is here
-		      $scope.checkBarcode(imageData.text);
-		     	//Call JSON request
+		    	console.log("Scanned:", imageData)
+		      if (!imageData.cancelled) {
+		      	//Image scan OK
+			      $scope.checkBarcode(imageData.text);
+			    } else {
+			    	//Image scan cancelled or failed
+			    	$location.path('/');
+			    }
 		     	
 		    }, function(error) {
 		    	console.log("FAIL")
